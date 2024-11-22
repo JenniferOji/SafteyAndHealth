@@ -28,7 +28,8 @@ public class Requester{
 			in = new ObjectInputStream(requestSocket.getInputStream());
 			
 			//3: Communicating with the server
-
+			do
+			{
 				//repeating if they don't enter 1 or 2 
 				do
 				{
@@ -36,7 +37,7 @@ public class Requester{
 					System.out.println(message);
 					message = input.nextLine();
 					sendMessage(message);
-				}while(!message.equalsIgnoreCase("1")&&!message.equalsIgnoreCase("2")&&!message.equalsIgnoreCase("3"));
+				}while(!message.equalsIgnoreCase("1")&&!message.equalsIgnoreCase("2"));
 			
 			    if(message.equalsIgnoreCase("1"))
 			    {
@@ -54,7 +55,7 @@ public class Requester{
 						message = input.nextLine();
 						sendMessage(message);
 					}while(message.equalsIgnoreCase("-1"));
-			    	
+					
 					//EMAIL
 					do
 					{
@@ -65,33 +66,33 @@ public class Requester{
 					}while(message.equalsIgnoreCase("-1"));
 					
 					//PASSWORD
-					message = (String)in.readObject();
+			    	message = (String)in.readObject();
 					System.out.println(message);
 					message = input.nextLine();
 					sendMessage(message);
 					
 					//DEPARTMENT
-					message = (String)in.readObject();
+			    	message = (String)in.readObject();
 					System.out.println(message);
 					message = input.nextLine();
 					sendMessage(message);
 					
 					//ROLE
-					message = (String)in.readObject();
+			    	message = (String)in.readObject();
 					System.out.println(message);
 					message = input.nextLine();
 					sendMessage(message);
-					
-					message = (String)in.readObject();
-					System.out.println(message);
 					
 					//successful register
 					message = (String)in.readObject();
 					System.out.println(message);
 					
+					
+					
 			    }
 			    else if(message.equalsIgnoreCase("2"))
 			    {
+			    	int attempts = 0;
 			    	do
 			    	{
 			    	//Email
@@ -110,56 +111,40 @@ public class Requester{
 					message = (String)in.readObject();
 					System.out.println(message);
 					
+					attempts ++;
+					
 					//if the book does not exists (result = -1)
 					if(message.equalsIgnoreCase("-1"))
 					{
-						System.out.println("Wrong Email or Password");
-					}
-					else
-					{
-						
-						String[] resultPart = message.split("@");
-						System.out.println("Name: "+resultPart[0]);
-						System.out.println("EmployeeID: "+resultPart[1]);
-						System.out.println("Email: "+resultPart[2]);
-						System.out.println("Password: "+resultPart[3]);
-						System.out.println("DepartmentName: "+resultPart[4]);
-						System.out.println("Role: "+resultPart[5]);
-						
-						//System.out.println("Login Successful. You can now access the system");
+						System.out.println("Wrong Email or Password - Try Again");
 					}
 			    	
-			    	}while(message.equalsIgnoreCase("-1"));
-			    	
-			    	//successful login
-			    	message = (String)in.readObject();
-					System.out.println(message);
-			    }
-			    
-			    
-			    else if(message.equalsIgnoreCase("3")) {
-			    	message = (String)in.readObject();
-					result = Integer.parseInt(message);
+					//if account exists result = 1
+					if(message.equalsIgnoreCase("1"))
+					{	
+						System.out.println("You have successfully logged in");
+					}
 					
-					for(int i=0; i<result; i++) {
+					if (attempts >= 5) {
 						message = (String)in.readObject();
 						System.out.println(message);
-					}
-					
+                        break;
+                    }
+			    	}while(message.equalsIgnoreCase("-1"));
+			    	
+			    	
 			    }
 			    
-			    //database message 
-			    message = (String)in.readObject();
-			    System.out.println(message);
+			   
 			    
-			    //looping until valid option picked
-			    do
-			    {
-			    	message = (String)in.readObject();
-					System.out.println(message);
-					message = input.nextLine();
-					sendMessage(message);
-				}while(!message.equalsIgnoreCase("1")&&!message.equalsIgnoreCase("2")&&!message.equalsIgnoreCase("3")&&!message.equalsIgnoreCase("4")&&!message.equalsIgnoreCase("5"));
+			    
+			    message = (String)in.readObject();
+				System.out.println(message);
+				message = input.nextLine();
+				sendMessage(message);
+		
+		
+		}while(message.equalsIgnoreCase("1"));
 			    
 
 			    

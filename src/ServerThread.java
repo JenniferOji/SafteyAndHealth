@@ -35,7 +35,8 @@ public class ServerThread extends Thread {
 			in = new ObjectInputStream(myConnection.getInputStream());
 		
 			//The server is ready to communicate.....
-
+			do
+			{
 				//repeating until the user enters 1 or 2
 				do
 				{
@@ -43,7 +44,7 @@ public class ServerThread extends Thread {
 					message = (String)in.readObject();
 					result = Integer.parseInt(message);	
 					
-				}while(result!=1 && result!=2 && result!=3);
+				}while(result!=1 && result!=2);
 				
 				if(message.equalsIgnoreCase("1"))
 				{
@@ -58,7 +59,7 @@ public class ServerThread extends Thread {
 						employeeID = Integer.parseInt(message);
 						validEmployeeID = shared.empolyeeIDExists(message);
 					}while(validEmployeeID.equalsIgnoreCase("-1"));
-
+					
 					//checking if the email is unique
 					do
 					{
@@ -66,7 +67,6 @@ public class ServerThread extends Thread {
 						email = (String)in.readObject();
 						validEmail = shared.emailExists(email);
 					}while(validEmail.equalsIgnoreCase("-1"));
-
 					
 					sendMessage("Enter Password");
 					password = (String)in.readObject();
@@ -76,17 +76,16 @@ public class ServerThread extends Thread {
 					
 					sendMessage("Enter Role");
 					role = (String)in.readObject();
-
 					
 					shared.addBook(name, employeeID, email, password, departmentName, role);
 					
 					sendMessage("You have successfully registered");
-
 				}
 				
 				else if(message.equalsIgnoreCase("2"))
 				{
 					String result;
+					int attempts = 0;
 					do
 					{
 						sendMessage("Enter your Email");
@@ -95,27 +94,27 @@ public class ServerThread extends Thread {
 						sendMessage("Enter your password ");
 						String userPassword = (String)in.readObject();
 						
-						//Search for the employee ....
-						result = shared.searchBook(userEmail, userPassword);
+						attempts ++;
+						//String attemptsNum = Integer.toString(attempts);
 						
+						//Search for the employee ....
+						result = shared.searchBook(userEmail, userPassword);			
 						sendMessage(result);
+
+						if(attempts >=5) {
+							sendMessage("Too many attempts - exiting login");
+							break;
+						}
 					}while(result.equalsIgnoreCase("-1"));
 					
-					sendMessage("You have successfully logged in");
-
 				}
 				
 				
-				//creating report
-				sendMessage("REPORT DATABASE - CREATE A HEALTH AND SAFTEY REPORT");
-				
-				do
-				{
-					sendMessage("Press 1 to Create a report\nPress 2 to retrieve all registered accident reports\nPress 3 to assign report\nPress 4 to view all reports\nPress 5 to update password");
+					sendMessage("Press 1 to Repeat Registration/login or 3 to access the reports");
 					message = (String)in.readObject();
-					option = Integer.parseInt(message);	
+					//option = Integer.parseInt(message);	
 					
-				}while(option!=1 && option!=2 && option!=3 && option!=4 && option!=5);
+		}while(message.equalsIgnoreCase("1"));
 				
 		
 		
