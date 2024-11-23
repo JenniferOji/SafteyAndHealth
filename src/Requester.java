@@ -9,7 +9,7 @@ public class Requester{
  	ObjectInputStream in;
  	String message;
  	Scanner input;
- 	int result;
+ 	int result, option;
 	Requester(){
 		
 		input = new Scanner(System.in);
@@ -116,7 +116,7 @@ public class Requester{
 					//if the book does not exists (result = -1)
 					if(message.equalsIgnoreCase("-1"))
 					{
-						System.out.println("Wrong Email or Password - Try Again");
+						System.out.println("Wrong Email or Password - Attemps: " + attempts);
 					}
 			    	
 					//if account exists result = 1
@@ -125,6 +125,7 @@ public class Requester{
 						System.out.println("You have successfully logged in");
 					}
 					
+					//if the user exceeds the attempts
 					if (attempts >= 5) {
 						message = (String)in.readObject();
 						System.out.println(message);
@@ -144,11 +145,26 @@ public class Requester{
 				sendMessage(message);
 		
 		
-		}while(message.equalsIgnoreCase("1"));
-			    
+			}while(message.equalsIgnoreCase("1"));
+			
+			//in report database center 
+			message = (String)in.readObject();
+			System.out.println(message);
+				    
+			//looping until user chooses a valid option 
+			do
+			{
+				message = (String)in.readObject();
+				System.out.println(message);
+				message = input.nextLine();
+				sendMessage(message);
 
-			    
-		
+				if(option < 1 || option > 5) {
+					message = (String)in.readObject();
+					System.out.println(message);
+				}
+			}while(!message.equalsIgnoreCase("1")&&!message.equalsIgnoreCase("2")&&!message.equalsIgnoreCase("3")&&!message.equalsIgnoreCase("4")&&!message.equalsIgnoreCase("5"));
+			
 		}
 		catch(UnknownHostException unknownHost)
 		{

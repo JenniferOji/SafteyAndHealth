@@ -8,9 +8,14 @@ public class ServerThread extends Thread {
 	private Socket myConnection;
 	private ObjectOutputStream out;
 	private ObjectInputStream in;
-	private String message, message2, name, email, password, departmentName, role;
+	private String message, message2;
+	//variables to register
+	private String name, email, password, departmentName, role;
 	private int employeeID;
-
+	
+	//variables for the report 
+	private String reportType, date, status;
+	private int reportID, reportEmployeeID, assingedEmployeeID;
 	private int result, numberOfBooks, option;
 	private int num1, num2, num3;
 	private Library shared;
@@ -101,6 +106,7 @@ public class ServerThread extends Thread {
 						result = shared.searchBook(userEmail, userPassword);			
 						sendMessage(result);
 
+						//if the user gives the wrong credentials more five times or more it exits the loop 
 						if(attempts >=5) {
 							sendMessage("Too many attempts - exiting login");
 							break;
@@ -114,11 +120,50 @@ public class ServerThread extends Thread {
 					message = (String)in.readObject();
 					//option = Integer.parseInt(message);	
 					
-		}while(message.equalsIgnoreCase("1"));
+			}while(message.equalsIgnoreCase("1"));
 				
+			//creating report
+			sendMessage("REPORT DATABASE - CREATE A HEALTH AND SAFTEY REPORT");
+			
+			do
+			{
+				sendMessage("Press 1 to Create a report\nPress 2 to retrieve all registered accident reports\nPress 3 to assign report\nPress 4 to view all reports\nPress 5 to update password");
+				message = (String)in.readObject();
+				option = Integer.parseInt(message);	
+				
+				if(option < 1 || option > 5) {
+					sendMessage("Invalid option please enter a number between 1 - 5");
+				}
+				
+			}while(option!=1 && option!=2 && option!=3 && option!=4 && option!=5);
 		
-		
-		
+			/*if(message.equalsIgnoreCase("1"))
+			{
+				String result;
+				
+				sendMessage("Enter Report type ");
+				reportType = (String)in.readObject();
+				
+				sendMessage("Enter Date");
+				date = (String)in.readObject();
+				
+				sendMessage("Enter Employee ID of the Report Creation");
+				message = (String)in.readObject();
+				reportEmployeeID = Integer.parseInt(message);	
+
+				
+				sendMessage("Enter Report Status (Open - Assigned - Closed)");
+				status = (String)in.readObject();
+				
+				//report ID is random and assigned in report class  
+				reportID = 0;
+				assingedEmployeeID = 0;
+				//assigned employee id blank until assigned 
+				
+				 shared.addReport(reportType, reportID, date, reportEmployeeID, status, assingedEmployeeID);
+				
+				sendMessage("Report successfully created");
+			}*/
 		} //end of the try
 		
 		catch (IOException e) 
