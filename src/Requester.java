@@ -135,10 +135,7 @@ public class Requester{
 			    	
 			    	
 			    }
-			    
-			   
-			    
-			    
+			     
 			    message = (String)in.readObject();
 				System.out.println(message);
 				message = input.nextLine();
@@ -150,20 +147,71 @@ public class Requester{
 			//in report database center 
 			message = (String)in.readObject();
 			System.out.println(message);
-				    
-			//looping until user chooses a valid option 
-			do
-			{
+				  
+			do {
+				//looping until user chooses a valid option 
+				do
+				{
+					message = (String)in.readObject();
+					System.out.println(message);
+					message = input.nextLine();
+					sendMessage(message);
+					
+	                option = Integer.parseInt(message);
+					if(option < 1 || option > 5) {
+						message = (String)in.readObject();
+						System.out.println(message);
+					}
+				}while(!message.equalsIgnoreCase("1")&&!message.equalsIgnoreCase("2")&&!message.equalsIgnoreCase("3")&&!message.equalsIgnoreCase("4")&&!message.equalsIgnoreCase("5"));
+	
+				if(option == 1)
+				{	
+					//REPORT TYPE 
+					message = (String)in.readObject();
+					System.out.println(message);
+					message = input.nextLine();
+					sendMessage(message);
+					
+					//DATE
+					message = (String)in.readObject();
+					System.out.println(message);
+					message = input.nextLine();
+					sendMessage(message);
+					
+					//EMPLOYEE ID
+					message = (String)in.readObject();
+					System.out.println(message);
+					message = input.nextLine();
+					sendMessage(message);
+					
+					//STATUS
+					message = (String)in.readObject();
+					System.out.println(message);
+					message = input.nextLine();
+					sendMessage(message);
+					
+					//SUCCESSFUL CREATION
+					message = (String)in.readObject();
+					System.out.println(message);
+				}
+				
+				if(option == 2) {				
+					message = (String)in.readObject();
+					result = Integer.parseInt(message);
+							
+					for(int i=0; i<result; i++) {
+						message = (String)in.readObject();
+						System.out.println(message);
+					}    
+				}
+				
+				//asking the user if they want to repeat
 				message = (String)in.readObject();
 				System.out.println(message);
 				message = input.nextLine();
 				sendMessage(message);
-
-				if(option < 1 || option > 5) {
-					message = (String)in.readObject();
-					System.out.println(message);
-				}
-			}while(!message.equalsIgnoreCase("1")&&!message.equalsIgnoreCase("2")&&!message.equalsIgnoreCase("3")&&!message.equalsIgnoreCase("4")&&!message.equalsIgnoreCase("5"));
+				
+			}while(message.equalsIgnoreCase("1"));
 			
 		}
 		catch(UnknownHostException unknownHost)

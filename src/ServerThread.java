@@ -123,47 +123,62 @@ public class ServerThread extends Thread {
 			}while(message.equalsIgnoreCase("1"));
 				
 			//creating report
-			sendMessage("REPORT DATABASE - CREATE A HEALTH AND SAFTEY REPORT");
+			sendMessage("REPORT DATABASE - HEALTH AND SAFTEY REPORTS");
 			
 			do
 			{
-				sendMessage("Press 1 to Create a report\nPress 2 to retrieve all registered accident reports\nPress 3 to assign report\nPress 4 to view all reports\nPress 5 to update password");
-				message = (String)in.readObject();
-				option = Integer.parseInt(message);	
-				
-				if(option < 1 || option > 5) {
-					sendMessage("Invalid option please enter a number between 1 - 5");
+				do
+				{
+					sendMessage("Press 1 to Create a report\nPress 2 to retrieve all registered accident reports\nPress 3 to assign report\nPress 4 to view all reports\nPress 5 to update password");
+					message = (String)in.readObject();
+					option = Integer.parseInt(message);	
+					
+					if(option < 1 || option > 5) {
+						sendMessage("Invalid option please enter a number between 1 - 5");
+					}
+					
+				}while(option!=1 && option!=2 && option!=3 && option!=4 && option!=5);
+			
+				if(option == 1)
+				{			
+					sendMessage("Enter Report type ");
+					reportType = (String)in.readObject();
+					
+				    sendMessage("Enter Date");
+					date = (String)in.readObject();
+					
+					sendMessage("Enter Employee ID of the Report Creation");
+					message = (String)in.readObject();
+					reportEmployeeID = Integer.parseInt(message);	
+	
+					sendMessage("Enter Report Status (Open - Assigned - Closed)");
+					status = (String)in.readObject();
+					
+					//report ID is random and assigned in report class  
+					reportID = 0;
+					assingedEmployeeID = 0;
+					//assigned employee id blank until assigned 
+					
+					shared.addReport(reportType, reportID, date, reportEmployeeID, status, assingedEmployeeID);
+					
+					sendMessage("Report successfully created");
 				}
 				
-			}while(option!=1 && option!=2 && option!=3 && option!=4 && option!=5);
-		
-			/*if(message.equalsIgnoreCase("1"))
-			{
-				String result;
+				if(option == 2) {				
+					int length = shared.getLength();
+	
+					//sharing all the books 
+					sendMessage(""+length);
+					for(int i =0; i<length; i++) {
+						sendMessage(shared.getAccidentReports(i));
+					}
+				}
 				
-				sendMessage("Enter Report type ");
-				reportType = (String)in.readObject();
-				
-				sendMessage("Enter Date");
-				date = (String)in.readObject();
-				
-				sendMessage("Enter Employee ID of the Report Creation");
+				sendMessage("Press 1 to go back to the menu");
 				message = (String)in.readObject();
-				reportEmployeeID = Integer.parseInt(message);	
 
-				
-				sendMessage("Enter Report Status (Open - Assigned - Closed)");
-				status = (String)in.readObject();
-				
-				//report ID is random and assigned in report class  
-				reportID = 0;
-				assingedEmployeeID = 0;
-				//assigned employee id blank until assigned 
-				
-				 shared.addReport(reportType, reportID, date, reportEmployeeID, status, assingedEmployeeID);
-				
-				sendMessage("Report successfully created");
-			}*/
+			}while(message.equalsIgnoreCase("1"));
+			
 		} //end of the try
 		
 		catch (IOException e) 
