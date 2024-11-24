@@ -154,8 +154,8 @@ public class ServerThread extends Thread {
 					sendMessage("Enter Report Status (Open - Assigned - Closed)");
 					status = (String)in.readObject();
 					
-					//report ID is random and assigned in report class  
-					reportID = 0;
+					//report ID is random and assigned in library class  
+					reportID = shared.reportIDGenerator(reportID);
 					assingedEmployeeID = 0;
 					//assigned employee id blank until assigned 
 					
@@ -174,9 +174,14 @@ public class ServerThread extends Thread {
 					}
 				}
 				
+				if(option == 3) {
+					sendMessage("ASSIGN A REPORT ");
+				}
+				
+				//repeating the menu options 
 				sendMessage("Press 1 to go back to the menu");
 				message = (String)in.readObject();
-
+				
 			}while(message.equalsIgnoreCase("1"));
 			
 		} //end of the try

@@ -205,6 +205,10 @@ public class Requester{
 					}    
 				}
 				
+				if(option == 3) {
+					message = (String)in.readObject();
+					System.out.println(message);
+				}
 				//asking the user if they want to repeat
 				message = (String)in.readObject();
 				System.out.println(message);

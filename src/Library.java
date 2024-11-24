@@ -1,5 +1,6 @@
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.Random;
 
 public class Library {
 
@@ -120,6 +121,7 @@ public class Library {
 	//FOR THE REPORTS 
 	public synchronized void addReport(String type, int reportID, String date, int reportEmployeeID, String status, int assignedEmployeeID)
 	{	
+		
 		Reports temp = new Reports(type,reportID,date,reportEmployeeID,status,assignedEmployeeID);
 		
 		list2.add(temp);
@@ -128,6 +130,14 @@ public class Library {
 
 		//update the file storage for the books
 		
+	}
+	
+	public synchronized int reportIDGenerator(int reportID) {
+        Random rand = new Random();
+
+        int randomNum = rand.nextInt(1000) + 1;
+        return randomNum;
+
 	}
 	
 

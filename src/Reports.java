@@ -21,7 +21,13 @@ public class Reports {
 	public String toString()
 	{
 		//find the employee
-		String temp = type+"@"+reportID+"@"+date+"@"+employeeID+"@"+status+"@"+assignedEmployeeID;
+		//String temp = type+"@"+reportID+"@"+date+"@"+employeeID+"@"+status+"@"+assignedEmployeeID;
+		  String temp = "Report Type: " + type + "@" + "\n" +
+                  "Report ID: " + reportID + "@" + "\n" +
+                  "Date: " + date + "@" + "\n" +
+                  "Employee ID of Report Creator: " + employeeID + "@" + "\n" +
+                  "Status: " + status + "@" + "\n" +
+                  "Assigned Employee ID: " + assignedEmployeeID + "\n";
 		return temp;
 	}
 	
