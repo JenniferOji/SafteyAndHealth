@@ -167,7 +167,7 @@ public class ServerThread extends Thread {
 				if(option == 2) {				
 					int length = shared.getLength();
 	
-					//sharing all the books 
+					//sharing all the reports 
 					sendMessage(""+length);
 					for(int i =0; i<length; i++) {
 						sendMessage(shared.getAccidentReports(i));
@@ -183,15 +183,30 @@ public class ServerThread extends Thread {
 					reportID = Integer.parseInt(message);
 					String report = Integer.toString(reportID);//parsing to be able to send to method 			
 
-					
 					sendMessage("Enter the Employee ID you want to assign the report to");
 					message = (String)in.readObject();
 					assingedEmployeeID = Integer.parseInt(message);
 					String ID = Integer.toString(assingedEmployeeID);//parsing to be able to send to method 			
 
+					//if report and id is valid it updates the details of the report in the method 
 					validAssignment = shared.reportIDExists(report, ID);
 					sendMessage(validAssignment);
-
+				}
+				
+				if(option == 4) {					
+					sendMessage("Enter your Employee ID");
+					message = (String)in.readObject();
+					employeeID = Integer.parseInt(message);
+					String ID = Integer.toString(employeeID);//parsing to be able to send to method 			
+					
+					int length = shared.getLength();
+					
+					//sharing all the reports 
+					sendMessage(""+length);
+					for(int i =0; i<length; i++) {
+						sendMessage(shared.getYourReports(i, ID));
+					}
+					
 				}
 				
 				//repeating the menu options 

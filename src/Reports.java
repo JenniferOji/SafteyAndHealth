@@ -37,6 +37,11 @@ public class Reports {
 		return report;
 	}
 	
+	public String getAssignedID() {
+		String employeeID = Integer.toString(assignedEmployeeID);				
+		return employeeID;
+	}
+	
 	public void setAssignedID(int id) {
 		this.assignedEmployeeID = id;
 	}

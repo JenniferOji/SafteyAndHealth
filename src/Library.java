@@ -161,8 +161,10 @@ public class Library {
         if(reportExists && employeeExists) {
             validAssignment = "1";
 
+            //looping through all the reports until it finds the correct one
             for (Reports temp3 : list2) {
                 if (temp3.getReportID().equals(searchReport)) {
+                	//if there is a match - changing the status to assigned and changing the assigned ID
                     temp3.setAssignedID(Integer.parseInt(searchID));
                     temp3.setStatus("Assigned");
                     break;
@@ -208,4 +210,39 @@ public class Library {
 		
 		return temp.toString();
 	}
+	
+	public synchronized String getYourHealthReports(String id)
+	{
+		String result="-1";//email already exists  
+		Iterator i = list2.iterator();
+		Reports temp;
+		
+		//looping through all the reports
+		while(i.hasNext())
+		{
+			temp = (Reports)i.next();
+			
+			if(temp.getAssignedID().equalsIgnoreCase(id))
+			{
+				result = "1";
+				break;
+			}
+		}
+		
+		return result;
+	}
+	
+	public synchronized String getYourReports(int location, String id)
+	{
+		Reports temp = list2.get(location);
+		
+		if(temp.getAssignedID().equalsIgnoreCase(id))
+		{
+			return temp.toString();
+		}
+		
+		return null;
+	}
+	
+	
 }

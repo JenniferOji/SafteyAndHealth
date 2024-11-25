@@ -235,6 +235,23 @@ public class Requester{
 					}
 				}
 				
+				if(option == 4) {
+					//ASKING FOR USERS ID
+					message = (String)in.readObject();
+					System.out.println(message);
+					message = input.nextLine();
+					sendMessage(message);
+					
+					//LENGHT
+					message = (String)in.readObject();
+					result = Integer.parseInt(message);
+							
+					for(int i=0; i<result; i++) {
+						message = (String)in.readObject();
+						System.out.println(message);
+					}  
+				}
+				
 				
 				//asking the user if they want to repeat
 				message = (String)in.readObject();
