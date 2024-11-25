@@ -50,6 +50,29 @@ public class Library {
 		return result;
 	}
 	
+	public synchronized String updatePassword(String email, String currentPassword, String newPassword)
+	{
+		//get sent the five parameters to make a book and add the to the list 
+		//if you get to the end and the book doesn't exist you send a -1
+		String result="-1";//no book 
+		Iterator i = list.iterator();
+		Book temp;
+		
+		//item stays in the list but i get a copy of it 
+		while(i.hasNext())
+		{
+			temp = (Book)i.next();
+			
+			if(temp.getEmail().equalsIgnoreCase(email)&& temp.getPassword().equalsIgnoreCase(currentPassword))
+			{
+                temp.updatePassword(newPassword);
+				result = "1";
+				break;
+			}
+		}
+		return result;
+	}
+	
 	public synchronized String empolyeeIDExists(String searchValue)
 	{
 		//get sent the five parameters to make a book and add the to the list 
@@ -211,26 +234,6 @@ public class Library {
 		return temp.toString();
 	}
 	
-	public synchronized String getYourHealthReports(String id)
-	{
-		String result="-1";//email already exists  
-		Iterator i = list2.iterator();
-		Reports temp;
-		
-		//looping through all the reports
-		while(i.hasNext())
-		{
-			temp = (Reports)i.next();
-			
-			if(temp.getAssignedID().equalsIgnoreCase(id))
-			{
-				result = "1";
-				break;
-			}
-		}
-		
-		return result;
-	}
 	
 	public synchronized String getYourReports(int location, String id)
 	{

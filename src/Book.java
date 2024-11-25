@@ -28,16 +28,20 @@ public class Book {
 		return password;
 	}
 	
+	public String getEmail() {
+		return email;
+	}
+	
+	public void updatePassword(String newPassword) {
+		this.password = newPassword;
+	}
+	
 	//ensuring the user has a valid email and employeeID
 	public String getEmpID() {
 		//casting employeeID to an integer
 		String EmpID = Integer.toString(employeeID);				
 		return EmpID;
 	}
-	public String getEmail() {
-		return email;
-	}
-	
 	public String toString()
 	{
 		//find the employee

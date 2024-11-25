@@ -209,6 +209,23 @@ public class ServerThread extends Thread {
 					
 				}
 				
+				if(option == 5) {
+					String setPassword;
+					String newPassword;
+					sendMessage("Enter your Email");
+					email = (String)in.readObject();
+					
+					sendMessage("Enter your current password");
+					password = (String)in.readObject();
+					
+					sendMessage("Enter new password");
+					newPassword = (String)in.readObject();
+					
+					setPassword = shared.updatePassword(email, password, newPassword);
+					sendMessage(setPassword);
+
+				}
+				
 				//repeating the menu options 
 				sendMessage("Press 1 to go back to the menu");
 				message = (String)in.readObject();

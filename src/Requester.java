@@ -87,50 +87,48 @@ public class Requester{
 					message = (String)in.readObject();
 					System.out.println(message);
 					
-					
-					
 			    }
 			    else if(message.equalsIgnoreCase("2"))
 			    {
 			    	int attempts = 0;
 			    	do
 			    	{
-			    	//Email
-			    	message = (String)in.readObject();
-					System.out.println(message);
-					message = input.nextLine();
-					sendMessage(message);
-					
-					//Password
-			    	message = (String)in.readObject();
-					System.out.println(message);
-					message = input.nextLine();
-					sendMessage(message);
-					
-					//Result
-					message = (String)in.readObject();
-					System.out.println(message);
-					
-					attempts ++;
-					
-					//if the book does not exists (result = -1)
-					if(message.equalsIgnoreCase("-1"))
-					{
-						System.out.println("Wrong Email or Password - Attemps: " + attempts);
-					}
-			    	
-					//if account exists result = 1
-					if(message.equalsIgnoreCase("1"))
-					{	
-						System.out.println("You have successfully logged in");
-					}
-					
-					//if the user exceeds the attempts
-					if (attempts >= 5) {
+				    	//Email
+				    	message = (String)in.readObject();
+						System.out.println(message);
+						message = input.nextLine();
+						sendMessage(message);
+						
+						//Password
+				    	message = (String)in.readObject();
+						System.out.println(message);
+						message = input.nextLine();
+						sendMessage(message);
+						
+						//Result
 						message = (String)in.readObject();
 						System.out.println(message);
-                        break;
-                    }
+						
+						attempts ++;
+						
+						//if the book does not exists (result = -1)
+						if(message.equalsIgnoreCase("-1"))
+						{
+							System.out.println("Wrong Email or Password - Attemps: " + attempts);
+						}
+				    	
+						//if account exists result = 1
+						if(message.equalsIgnoreCase("1"))
+						{	
+							System.out.println("You have successfully logged in");
+						}
+						
+						//if the user exceeds the attempts
+						if (attempts >= 5) {
+							message = (String)in.readObject();
+							System.out.println(message);
+	                        break;
+	                    }
 			    	}while(message.equalsIgnoreCase("-1"));
 			    	
 			    	
@@ -250,6 +248,41 @@ public class Requester{
 						message = (String)in.readObject();
 						System.out.println(message);
 					}  
+				}
+				
+				if(option == 5) {
+					//READING USER EMAIL
+					message = (String)in.readObject();
+					System.out.println(message);
+					message = input.nextLine();
+					sendMessage(message);
+					
+					//READING USER PASSWORD 
+					message = (String)in.readObject();
+					System.out.println(message);
+					message = input.nextLine();
+					sendMessage(message);
+					
+					//READING NEW PASSWORD 
+					message = (String)in.readObject();
+					System.out.println(message);
+					message = input.nextLine();
+					sendMessage(message);
+					
+					//READING RESULT OF UPDATEPASSWORD METHOD 
+					message = (String)in.readObject();
+					System.out.println(message);
+					
+					if(message.equalsIgnoreCase("1"))
+					{
+						System.out.println("Password updated successfully");
+					}
+					
+					else
+					{
+						System.out.println("Incorrect email or password entered");
+					}
+					
 				}
 				
 				
