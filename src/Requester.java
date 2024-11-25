@@ -114,7 +114,7 @@ public class Requester{
 						
 						attempts ++;
 						
-						//if the book does not exists (result = -1)
+						//if the account does not exists (result = -1)
 						if(message.equalsIgnoreCase("-1"))
 						{
 							System.out.println("Wrong Email or Password - Attemps: " + attempts);

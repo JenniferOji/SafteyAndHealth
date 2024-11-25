@@ -4,14 +4,16 @@ import java.util.Random;
 
 public class Library {
 
-	private LinkedList<Book> list;
+//	private LinkedList<Book> list;
+	private LinkedList<Employees> list;
 	private LinkedList<Reports> list2;
+	
 
 	
 	public Library()
 	{
 		//list holds a linked list of books 
-		list = new LinkedList<Book>();
+		list = new LinkedList<Employees>();
 		list2 = new LinkedList<Reports>();
 
 	}
@@ -19,7 +21,7 @@ public class Library {
 	//FOR THE EMPLOYEE REGISTER 	
 	public synchronized void addBook(String name, int employeeID, String email, String password, String departmentName, String role)
 	{
-		Book temp = new Book(name,employeeID,email,password,departmentName,role);
+		Employees temp = new Employees(name,employeeID,email,password,departmentName,role);
 		
 		list.add(temp);
 		
@@ -33,12 +35,12 @@ public class Library {
 		//if you get to the end and the book doesn't exist you send a -1
 		String result="-1";//no book 
 		Iterator i = list.iterator();
-		Book temp;
+		Employees temp;
 		
 		//item stays in the list but i get a copy of it 
 		while(i.hasNext())
 		{
-			temp = (Book)i.next();
+			temp = (Employees)i.next();
 			
 			if(temp.getEmail().equalsIgnoreCase(email)&& temp.getPassword().equalsIgnoreCase(password))
 			{
@@ -56,12 +58,12 @@ public class Library {
 		//if you get to the end and the book doesn't exist you send a -1
 		String result="-1";//no book 
 		Iterator i = list.iterator();
-		Book temp;
+		Employees temp;
 		
 		//item stays in the list but i get a copy of it 
 		while(i.hasNext())
 		{
-			temp = (Book)i.next();
+			temp = (Employees)i.next();
 			
 			if(temp.getEmail().equalsIgnoreCase(email)&& temp.getPassword().equalsIgnoreCase(currentPassword))
 			{
@@ -79,12 +81,12 @@ public class Library {
 		//if you get to the end and the book doesn't exist you send a -1
 		String result="1";//no book 
 		Iterator i = list.iterator();
-		Book temp;
+		Employees temp;
 		
 		//item stays in the list but i get a copy of it 
 		while(i.hasNext())
 		{
-			temp = (Book)i.next();
+			temp = (Employees)i.next();
 			
 			if(temp.getEmpID().equalsIgnoreCase(searchValue))
 			{
@@ -99,16 +101,14 @@ public class Library {
 	
 	public synchronized String emailExists(String searchValue)
 	{
-		//get sent the five parameters to make a book and add the to the list 
-		//if you get to the end and the book doesn't exist you send a -1
 		String result="1";//email already exists  
 		Iterator i = list.iterator();
-		Book temp;
+		Employees temp;
 		
 		//item stays in the list but i get a copy of it 
 		while(i.hasNext())
 		{
-			temp = (Book)i.next();
+			temp = (Employees)i.next();
 			
 			if(temp.getEmail().equalsIgnoreCase(searchValue))
 			{
@@ -129,7 +129,7 @@ public class Library {
 	
 	public synchronized String getItem(int location)
 	{
-		Book temp = list.get(location);
+		Employees temp = list.get(location);
 		
 		return temp.toString();
 	}
@@ -159,7 +159,7 @@ public class Library {
         Iterator j = list.iterator();
 
 		Reports temp;
-		Book temp2;
+		Employees temp2;
         
         // Check if report exists
         while(i.hasNext()) {
@@ -172,7 +172,7 @@ public class Library {
         
         // Check if employee exists
         while(j.hasNext()) {
-			temp2 = (Book)j.next();
+			temp2 = (Employees)j.next();
         	if(temp2.getEmpID().equals(searchID)) {
                 employeeExists = true;
                 break;
@@ -211,12 +211,12 @@ public class Library {
 		//if you get to the end and the book doesn't exist you send a -1
 		String result="-1";//no book 
 		Iterator i = list.iterator();
-		Book temp;
+		Employees temp;
 		
 		//item stays in the list but i get a copy of it 
 		while(i.hasNext())
 		{
-			temp = (Book)i.next();
+			temp = (Employees)i.next();
 			
 			result = temp.toString();//string of the employee details 
 			break;
