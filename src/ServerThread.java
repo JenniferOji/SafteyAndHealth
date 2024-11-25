@@ -23,7 +23,7 @@ public class ServerThread extends Thread {
 	private String validEmail;
 	private String validEmployeeID;
 	
-	private boolean authenticate;
+	private boolean authenticate = false;
 	
 	public ServerThread(Socket s, Library lib)
 	{
@@ -85,6 +85,7 @@ public class ServerThread extends Thread {
 					shared.addBook(name, employeeID, email, password, departmentName, role);
 					
 					sendMessage("You have successfully registered");
+					authenticate = true;
 				}
 				
 				else if(message.equalsIgnoreCase("2"))
@@ -105,22 +106,22 @@ public class ServerThread extends Thread {
 						//Search for the employee ....
 						result = shared.searchBook(userEmail, userPassword);			
 						sendMessage(result);
-
+						
+						if(result.equalsIgnoreCase("1")){
+							authenticate = true;
+						}
 						//if the user gives the wrong credentials more five times or more it exits the loop 
 						if(attempts >=5) {
 							sendMessage("Too many attempts - exiting login");
+							authenticate = false;
 							break;
 						}
+
 					}while(result.equalsIgnoreCase("-1"));
 					
 				}
 				
-				
-					sendMessage("Press 1 to Repeat Registration/login or 3 to access the reports");
-					message = (String)in.readObject();
-					//option = Integer.parseInt(message);	
-					
-			}while(message.equalsIgnoreCase("1"));
+			}while(authenticate == false);
 				
 			//creating report
 			sendMessage("REPORT DATABASE - HEALTH AND SAFTEY REPORTS");

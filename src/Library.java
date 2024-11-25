@@ -27,7 +27,7 @@ public class Library {
 		
 	}
 	
-	public synchronized String searchBook(String searchValue, String searchValue2)
+	public synchronized String searchBook(String email, String password)
 	{
 		//get sent the five parameters to make a book and add the to the list 
 		//if you get to the end and the book doesn't exist you send a -1
@@ -40,7 +40,7 @@ public class Library {
 		{
 			temp = (Book)i.next();
 			
-			if(temp.getName().equalsIgnoreCase(searchValue)&& temp.getPassword().equalsIgnoreCase(searchValue2))
+			if(temp.getEmail().equalsIgnoreCase(email)&& temp.getPassword().equalsIgnoreCase(password))
 			{
 				//result = temp.toString();//string of the employee details 
 				result = "1";

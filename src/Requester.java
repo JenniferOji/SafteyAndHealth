@@ -10,6 +10,7 @@ public class Requester{
  	String message;
  	Scanner input;
  	int result, option;
+ 	boolean authenticate = false;
 	Requester(){
 		
 		input = new Scanner(System.in);
@@ -87,6 +88,8 @@ public class Requester{
 					message = (String)in.readObject();
 					System.out.println(message);
 					
+					authenticate = true;
+					
 			    }
 			    else if(message.equalsIgnoreCase("2"))
 			    {
@@ -121,26 +124,22 @@ public class Requester{
 						if(message.equalsIgnoreCase("1"))
 						{	
 							System.out.println("You have successfully logged in");
+							authenticate = true;
 						}
 						
 						//if the user exceeds the attempts
 						if (attempts >= 5) {
 							message = (String)in.readObject();
 							System.out.println(message);
+							authenticate = false;
 	                        break;
 	                    }
+
 			    	}while(message.equalsIgnoreCase("-1"));
-			    	
-			    	
+			   
 			    }
-			     
-			    message = (String)in.readObject();
-				System.out.println(message);
-				message = input.nextLine();
-				sendMessage(message);
 		
-		
-			}while(message.equalsIgnoreCase("1"));
+			}while(authenticate == false);
 			
 			//in report database center 
 			message = (String)in.readObject();
