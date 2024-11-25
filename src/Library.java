@@ -111,12 +111,7 @@ public class Library {
 		return temp.toString();
 	}
 	
-	public synchronized String getAccidentReports(int location)
-	{
-		Reports temp = list2.get(location);
-		
-		return temp.toString();
-	}
+
 	
 	//FOR THE REPORTS 
 	public synchronized void addReport(String type, int reportID, String date, int reportEmployeeID, String status, int assignedEmployeeID)
@@ -132,6 +127,51 @@ public class Library {
 		
 	}
 	
+	public synchronized String reportIDExists(String searchReport, String searchID) {
+        // Default to invalid assignment
+        String validAssignment = "-1";
+        boolean reportExists = false;
+        boolean employeeExists = false;
+        Iterator i = list2.iterator();
+        Iterator j = list.iterator();
+
+		Reports temp;
+		Book temp2;
+        
+        // Check if report exists
+        while(i.hasNext()) {
+			temp = (Reports)i.next();
+            if(temp.getReportID().equals(searchReport)) {
+                reportExists = true;
+                break;
+            }
+        }
+        
+        // Check if employee exists
+        while(j.hasNext()) {
+			temp2 = (Book)j.next();
+        	if(temp2.getEmpID().equals(searchID)) {
+                employeeExists = true;
+                break;
+            }
+        }
+        
+        
+        // Both report and employee must exist for valid assignment
+        if(reportExists && employeeExists) {
+            validAssignment = "1";
+
+            for (Reports temp3 : list2) {
+                if (temp3.getReportID().equals(searchReport)) {
+                    temp3.setAssignedID(Integer.parseInt(searchID));
+                    temp3.setStatus("Assigned");
+                    break;
+                }
+            }
+        } 
+        return validAssignment;
+    }
+	
 	public synchronized int reportIDGenerator(int reportID) {
         Random rand = new Random();
 
@@ -139,8 +179,6 @@ public class Library {
         return randomNum;
 
 	}
-	
-
 	
 	public synchronized String searchAccidentReports(String searchValue, String searchValue2)
 	{
@@ -162,5 +200,12 @@ public class Library {
 		
 		return result;
 		
+	}
+	
+	public synchronized String getAccidentReports(int location)
+	{
+		Reports temp = list2.get(location);
+		
+		return temp.toString();
 	}
 }

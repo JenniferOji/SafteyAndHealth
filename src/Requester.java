@@ -206,9 +206,36 @@ public class Requester{
 				}
 				
 				if(option == 3) {
+					//ASSIGNING REPORT TO EMPLOYEE
 					message = (String)in.readObject();
 					System.out.println(message);
+					
+					//REPORT ID
+					message = (String)in.readObject();
+					System.out.println(message);
+					message = input.nextLine();
+					sendMessage(message);
+					
+					//EMPLOYEE ID
+					message = (String)in.readObject();
+					System.out.println(message);
+					message = input.nextLine();
+					sendMessage(message);
+					
+					//reading if the assignment is valid 
+					message = (String)in.readObject();
+					System.out.println(message);
+					
+					if(message.equalsIgnoreCase("1")) {
+						System.out.println("Report assigned successfully");
+					}
+					
+					else {
+						System.out.println("Invalid Report ID or Employee ID");
+					}
 				}
+				
+				
 				//asking the user if they want to repeat
 				message = (String)in.readObject();
 				System.out.println(message);

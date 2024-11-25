@@ -31,4 +31,17 @@ public class Reports {
 		return temp;
 	}
 	
+	public String getReportID() {
+		//casting employeeID to an integer
+		String report = Integer.toString(reportID);				
+		return report;
+	}
+	
+	public void setAssignedID(int id) {
+		this.assignedEmployeeID = id;
+	}
+	
+	public void setStatus(String updatedStatus) {
+		this.status = updatedStatus;
+	}
 }

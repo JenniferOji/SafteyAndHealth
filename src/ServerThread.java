@@ -141,7 +141,7 @@ public class ServerThread extends Thread {
 			
 				if(option == 1)
 				{			
-					sendMessage("Enter Report type ");
+					sendMessage("Enter Report type (Accident Report or Health and Safety Risk Report) ");
 					reportType = (String)in.readObject();
 					
 				    sendMessage("Enter Date");
@@ -175,7 +175,23 @@ public class ServerThread extends Thread {
 				}
 				
 				if(option == 3) {
+					String validAssignment;
 					sendMessage("ASSIGN A REPORT ");
+					
+					sendMessage("Enter the Report ID ");
+					message = (String)in.readObject();
+					reportID = Integer.parseInt(message);
+					String report = Integer.toString(reportID);//parsing to be able to send to method 			
+
+					
+					sendMessage("Enter the Employee ID you want to assign the report to");
+					message = (String)in.readObject();
+					assingedEmployeeID = Integer.parseInt(message);
+					String ID = Integer.toString(assingedEmployeeID);//parsing to be able to send to method 			
+
+					validAssignment = shared.reportIDExists(report, ID);
+					sendMessage(validAssignment);
+
 				}
 				
 				//repeating the menu options 
