@@ -1,0 +1,6 @@
+Accident#111#25/03/2022#2#Closed#5
+Risk#875#25/06/2023#2#Open#0
+Accident#52#25/06/2023#2#Closed#6
+Risk#9#6/03/2024#2#Open#0
+Accident#912#20/11/2024#2#Assigned#3
+Accident#380#26/11/2024#2#Assigned#2

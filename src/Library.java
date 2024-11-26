@@ -10,49 +10,72 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
-public class Library {
-
-//	private LinkedList<Book> list;
-	private LinkedList<Employees> list;
-	private LinkedList<Reports> list2;
+	public class Library {
 	
-	public Library()
-	{
-		//list holds a linked list of books 
-		list = new LinkedList<Employees>();
-		list2 = new LinkedList<Reports>();
+	//	private LinkedList<Book> list;
+		private LinkedList<Employees> list;
+		private LinkedList<Reports> list2;
 		
-		//reading in the employees
-		String fileContents;
-		String[] results = new String[6];
-		Employees temp;
-
-		///Populate the library....
-		try 
+		public Library()
 		{
-			FileReader fr = new FileReader(new File("Employees.txt"));
-			BufferedReader br = new BufferedReader(fr);
+			//list holds a linked list of books 
+			list = new LinkedList<Employees>();
+			list2 = new LinkedList<Reports>();
 			
-			
-			while((fileContents = br.readLine())!=null)
-			{  
-				//System.out.println("The contents are "+fileContents);
+			//reading in the employees
+			String fileContents;
+			String[] results = new String[6];
+			Employees temp;
+			Reports temp2;
+			//Populating the employees list
+			try 
+			{
+				FileReader fr = new FileReader(new File("Employees.txt"));
+				BufferedReader br = new BufferedReader(fr);
 				
-				String[] resultPart = fileContents.split("#");//splitting at the #
-			
-				temp = new Employees(resultPart[0], Integer.parseInt(resultPart[1]), resultPart[2], resultPart[3],resultPart[4], resultPart[5]);
-				list.add(temp);
+				while((fileContents = br.readLine())!=null)
+				{  					
+					String[] resultPart = fileContents.split("#");//splitting at the #
+				
+					temp = new Employees(resultPart[0], Integer.parseInt(resultPart[1]), resultPart[2], resultPart[3],resultPart[4], resultPart[5]);
+					list.add(temp);
+				}
+				
+			} 
+			catch (FileNotFoundException e1) 
+			{
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-		} 
-		catch (FileNotFoundException e1) 
-		{
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-}
+			/////////////////////////////////////////////////////////////////////
+			//populating the reports list 
+			try 
+			{
+				FileReader fr = new FileReader(new File("Reports.txt"));
+				BufferedReader br = new BufferedReader(fr);
+				
+				while((fileContents = br.readLine())!=null)
+				{  					
+					String[] resultPart = fileContents.split("#");//splitting at the #
+			
+					temp2 = new Reports(resultPart[0], Integer.parseInt(resultPart[1]), resultPart[2], Integer.parseInt(resultPart[3]),resultPart[4], Integer.parseInt(resultPart[5]));
+					list2.add(temp2);
+				}
+				
+			} 
+			catch (FileNotFoundException e1) 
+			{
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+	}
 	
 	//FOR THE EMPLOYEE REGISTER 	
 	public synchronized void addBook(String name, int employeeID, String email, String password, String departmentName, String role)
@@ -66,7 +89,6 @@ public class Library {
 		try 
 		{
 			FileWriter fw = new FileWriter(new File("Employees.txt"));
-			
 			Iterator i = list.iterator();
 			
 			
