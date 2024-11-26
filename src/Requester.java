@@ -155,11 +155,11 @@ public class Requester{
 					sendMessage(message);
 					
 	                option = Integer.parseInt(message);
-					if(option < 1 || option > 5) {
+					if(option < 1 || option > 6) {
 						message = (String)in.readObject();
 						System.out.println(message);
 					}
-				}while(!message.equalsIgnoreCase("1")&&!message.equalsIgnoreCase("2")&&!message.equalsIgnoreCase("3")&&!message.equalsIgnoreCase("4")&&!message.equalsIgnoreCase("5"));
+				}while(!message.equalsIgnoreCase("1")&&!message.equalsIgnoreCase("2")&&!message.equalsIgnoreCase("3")&&!message.equalsIgnoreCase("4")&&!message.equalsIgnoreCase("5")&&!message.equalsIgnoreCase("6"));
 	
 				if(option == 1)
 				{	
@@ -192,7 +192,8 @@ public class Requester{
 					System.out.println(message);
 				}
 				
-				if(option == 2) {				
+				if(option == 2) 
+				{				
 					message = (String)in.readObject();
 					result = Integer.parseInt(message);
 							
@@ -202,7 +203,8 @@ public class Requester{
 					}    
 				}
 				
-				if(option == 3) {
+				if(option == 3)
+				{
 					//ASSIGNING REPORT TO EMPLOYEE
 					message = (String)in.readObject();
 					System.out.println(message);
@@ -232,7 +234,8 @@ public class Requester{
 					}
 				}
 				
-				if(option == 4) {
+				if(option == 4)
+				{
 					//ASKING FOR USERS ID
 					message = (String)in.readObject();
 					System.out.println(message);
@@ -249,7 +252,8 @@ public class Requester{
 					}  
 				}
 				
-				if(option == 5) {
+				if(option == 5) 
+				{
 					//READING USER EMAIL
 					message = (String)in.readObject();
 					System.out.println(message);
@@ -282,6 +286,19 @@ public class Requester{
 						System.out.println("Incorrect email or password entered");
 					}
 					
+				}
+				
+				//OUTPUTTING ALL EMPLOYEES 
+				if(option == 6)
+				{
+					message = (String)in.readObject();	
+			    	result = Integer.parseInt(message);
+			    	
+			    	for(int i=0;i<result;i++)
+			    	{
+			    		message = (String)in.readObject();
+			    		System.out.println(message);
+			    	}
 				}
 				
 				

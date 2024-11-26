@@ -130,15 +130,15 @@ public class ServerThread extends Thread {
 			{
 				do
 				{
-					sendMessage("Press 1 to Create a report\nPress 2 to retrieve all registered accident reports\nPress 3 to assign report\nPress 4 to view all reports\nPress 5 to update password");
+					sendMessage("Press 1 to Create a report\nPress 2 to retrieve all registered accident reports\nPress 3 to assign report\nPress 4 to view all reports\nPress 5 to update password\nPress 6 to view all Employees");
 					message = (String)in.readObject();
 					option = Integer.parseInt(message);	
 					
-					if(option < 1 || option > 5) {
+					if(option < 1 || option > 6) {
 						sendMessage("Invalid option please enter a number between 1 - 5");
 					}
 					
-				}while(option!=1 && option!=2 && option!=3 && option!=4 && option!=5);
+				}while(option!=1 && option!=2 && option!=3 && option!=4 && option!=5  && option!=6);
 			
 				if(option == 1)
 				{			
@@ -225,6 +225,20 @@ public class ServerThread extends Thread {
 					setPassword = shared.updatePassword(email, password, newPassword);
 					sendMessage(setPassword);
 
+				}
+				
+				//OUTPUTTING ALL EMPLOYEES 
+				if(option == 6) 
+				{
+					int length = shared.getLength2();
+					
+					sendMessage(""+length);
+					
+					for(int i=0;i<length;i++)
+					{
+						sendMessage(shared.getItem2(i));
+					}
+					
 				}
 				
 				//repeating the menu options 

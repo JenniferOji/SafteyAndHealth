@@ -2,21 +2,57 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Random;
 
+//for reading in the file 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+
 public class Library {
 
 //	private LinkedList<Book> list;
 	private LinkedList<Employees> list;
 	private LinkedList<Reports> list2;
 	
-
-	
 	public Library()
 	{
 		//list holds a linked list of books 
 		list = new LinkedList<Employees>();
 		list2 = new LinkedList<Reports>();
+		
+		//reading in the employees
+		String fileContents;
+		String[] results = new String[6];
+		Employees temp;
 
-	}
+		///Populate the library....
+		try 
+		{
+			FileReader fr = new FileReader(new File("Employees.txt"));
+			BufferedReader br = new BufferedReader(fr);
+			
+			
+			while((fileContents = br.readLine())!=null)
+			{  
+				//System.out.println("The contents are "+fileContents);
+				
+				String[] resultPart = fileContents.split("#");//splitting at the #
+			
+				temp = new Employees(resultPart[0], Integer.parseInt(resultPart[1]), resultPart[2], resultPart[3],resultPart[4], resultPart[5]);
+				list.add(temp);
+			}
+		} 
+		catch (FileNotFoundException e1) 
+		{
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+}
 	
 	//FOR THE EMPLOYEE REGISTER 	
 	public synchronized void addBook(String name, int employeeID, String email, String password, String departmentName, String role)
@@ -25,7 +61,31 @@ public class Library {
 		
 		list.add(temp);
 		
-		//update the file storage for the books
+		//update the file storage for the Employees
+		//rewriting the file when an employee registers 
+		try 
+		{
+			FileWriter fw = new FileWriter(new File("Employees.txt"));
+			
+			Iterator i = list.iterator();
+			
+			
+			while(i.hasNext())
+			{
+				temp = (Employees)i.next();
+				fw.write(temp.toString()+"\n");
+				
+				System.out.println("Writing "+temp.toString());
+			}
+			
+			fw.close();
+		} 
+		
+		catch (IOException e) 
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 	
@@ -122,6 +182,21 @@ public class Library {
 		
 	}
 	
+	//TO BE DELETED
+	///////////////////////////////////////////////
+	public synchronized int getLength2()
+	{
+		return list.size();
+	}
+	
+	public synchronized String getItem2(int location)
+	{
+		Employees temp = list.get(location);
+		
+		return temp.toString();
+	}
+	
+	////////////////////////////////////////////
 	public synchronized int getLength()
 	{
 		return list2.size();

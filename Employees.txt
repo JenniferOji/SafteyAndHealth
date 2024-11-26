@@ -1,0 +1,7 @@
+Jenny#1#jenny@atu.ie#hello12#Clothing#Manager
+Valerie#2#Val400@gmail.com#hello12#Food#Assistant
+David#3#DavidSher@gmail.com#ninja#Clothing#Manager
+Hillary#4#hillaryIzzy@atu.ie#hello12#Clothing#Manager
+Ben#5#benTen@yahoo.com#belly#Food#FloorManager
+Ella#6#ellaBella@atu.ie#bella#HR#Assistant
+Angie#7#angelaF@atu.ie#angie123#HR#Assistant
