@@ -45,7 +45,7 @@ public class Employees {
 	public String toString()
 	{
 		//find the employee
-		String temp = name+"@"+employeeID+"@"+ "email" + email+"@" + "password "+password+"@"+departmentName+"@"+role;
+		String temp = name+"#"+employeeID+"#"+ email+"#"+password+"#"+departmentName+"#"+role;
 		return temp;
 	}
 	

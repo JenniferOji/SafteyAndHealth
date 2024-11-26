@@ -17,7 +17,15 @@ public class Reports {
 		assignedEmployeeID = ro;
 	}
 	
+	//outputting efficiently to file 
+	public String toString2()
+	{
+		//printing employee details
+		String temp = type+ "#"+reportID+ "#"+date+employeeID+ "#"+status + "#"+ assignedEmployeeID + "#";
+		return temp;
+	}
 
+	//displaying nicely to the screen
 	public String toString()
 	{
 		//printing employee details
@@ -31,7 +39,7 @@ public class Reports {
 	}
 	
 	public String getReportID() {
-		//casting employeeID to an integer
+		//casting report id to a sting to allow for an easier comparison 
 		String report = Integer.toString(reportID);				
 		return report;
 	}

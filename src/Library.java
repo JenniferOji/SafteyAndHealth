@@ -150,9 +150,32 @@ import java.io.IOException;
 			if(temp.getEmail().equalsIgnoreCase(email)&& temp.getPassword().equalsIgnoreCase(currentPassword))
 			{
                 temp.updatePassword(newPassword);
+                
+                //updating the file 
 				result = "1";
 				break;
 			}
+		}
+		
+		//updating the file
+		try 
+		{
+			FileWriter fw = new FileWriter(new File("Employees.txt"));
+			Iterator j = list.iterator();
+			
+			while(j.hasNext())
+			{
+				temp = (Employees)j.next();
+				fw.write(temp.toString()+"\n");
+				
+				System.out.println("Writing "+temp.toString());
+			}
+			fw.close();
+		} 
+		catch (IOException e) 
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		return result;
 	}
@@ -242,9 +265,30 @@ import java.io.IOException;
 		list2.add(temp);
 		
 		//result = temp.toString();//string of the employee details 
-
-		//update the file storage for the books
+		//update the file storage for the Employees
+		//rewriting the file when an employee registers 
+		try 
+		{
+			FileWriter fw = new FileWriter(new File("Reports.txt"));
+			Iterator i = list2.iterator();
+			
+			
+			while(i.hasNext())
+			{
+				temp = (Reports)i.next();
+				fw.write(temp.toString2()+"\n");
+				
+				System.out.println("Writing "+temp.toString2());
+			}
+			
+			fw.close();
+		} 
 		
+		catch (IOException e) 
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public synchronized String reportIDExists(String searchReport, String searchID) {
@@ -259,18 +303,22 @@ import java.io.IOException;
 		Employees temp2;
         
         // Check if report exists
-        while(i.hasNext()) {
+        while(i.hasNext())
+        {
 			temp = (Reports)i.next();
-            if(temp.getReportID().equals(searchReport)) {
+            if(temp.getReportID().equals(searchReport)) 
+            {
                 reportExists = true;
                 break;
             }
         }
         
         // Check if employee exists
-        while(j.hasNext()) {
+        while(j.hasNext()) 
+        {
 			temp2 = (Employees)j.next();
-        	if(temp2.getEmpID().equals(searchID)) {
+        	if(temp2.getEmpID().equals(searchID)) 
+        	{
                 employeeExists = true;
                 break;
             }
