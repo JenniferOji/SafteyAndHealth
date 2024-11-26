@@ -21,7 +21,7 @@ public class Reports {
 	public String toString2()
 	{
 		//printing employee details
-		String temp = type+ "#"+reportID+ "#"+date+employeeID+ "#"+status + "#"+ assignedEmployeeID + "#";
+		String temp = type+ "#"+reportID+ "#"+date+ "#" +employeeID+ "#"+status + "#"+ assignedEmployeeID;
 		return temp;
 	}
 

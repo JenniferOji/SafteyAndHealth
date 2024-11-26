@@ -130,7 +130,7 @@ public class ServerThread extends Thread {
 			{
 				do
 				{
-					sendMessage("Press 1 to Create a report\nPress 2 to retrieve all registered accident reports\nPress 3 to assign report\nPress 4 to view all reports\nPress 5 to update password\nPress 6 to view all Employees");
+					sendMessage("Press 1 to Create a report\nPress 2 to retrieve all registered accident reports\nPress 3 to assign report\nPress 4 to view all your assigned reports\nPress 5 to update password\nPress 6 to view all Employees");
 					message = (String)in.readObject();
 					option = Integer.parseInt(message);	
 					
@@ -157,6 +157,7 @@ public class ServerThread extends Thread {
 					
 					//report ID is random and assigned in library class  
 					reportID = shared.reportIDGenerator(reportID);
+					//all newly created reports are assigned 0 until they assign an employee through the method
 					assingedEmployeeID = 0;
 					//assigned employee id blank until assigned 
 					

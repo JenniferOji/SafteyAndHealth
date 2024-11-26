@@ -324,7 +324,6 @@ import java.io.IOException;
             }
         }
         
-        
         // Both report and employee must exist for valid assignment
         if(reportExists && employeeExists) {
             validAssignment = "1";
@@ -338,7 +337,31 @@ import java.io.IOException;
                     break;
                 }
             }
+            
+            //writing to file 
+            try 
+    		{
+    			FileWriter fw = new FileWriter(new File("Reports.txt"));
+    			Iterator l = list2.iterator();
+    			
+    			while(l.hasNext())
+    			{
+    				temp = (Reports)l.next();
+    				fw.write(temp.toString2()+"\n");
+    				
+    				System.out.println("Writing "+temp.toString2());
+    			}
+    			
+    			fw.close();
+    		} 
+    		
+    		catch (IOException e) 
+    		{
+    			// TODO Auto-generated catch block
+    			e.printStackTrace();
+    		}
         } 
+        
         return validAssignment;
     }
 	
