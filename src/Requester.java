@@ -141,7 +141,7 @@ public class Requester{
 		
 			}while(authenticate == false);
 			
-			//in report database center 
+			//REPORT DATABSE CENTRE 
 			message = (String)in.readObject();
 			System.out.println(message);
 				  
@@ -164,10 +164,13 @@ public class Requester{
 				if(option == 1)
 				{	
 					//REPORT TYPE 
-					message = (String)in.readObject();
-					System.out.println(message);
-					message = input.nextLine();
-					sendMessage(message);
+					do 
+					{
+						message = (String)in.readObject();
+						System.out.println(message);
+						message = input.nextLine();
+						sendMessage(message);
+					}while(!message.equalsIgnoreCase("Accident Report") && !message.equalsIgnoreCase("Health and Safety Risk Report"));
 					
 					//DATE
 					message = (String)in.readObject();
@@ -176,17 +179,23 @@ public class Requester{
 					sendMessage(message);
 					
 					//EMPLOYEE ID
-					message = (String)in.readObject();
-					System.out.println(message);
-					message = input.nextLine();
-					sendMessage(message);
+					do
+					{
+						message = (String)in.readObject();
+						System.out.println(message);
+						message = input.nextLine();
+						sendMessage(message);
+					}while(message.equalsIgnoreCase("1"));
 					
 					//STATUS
-					message = (String)in.readObject();
-					System.out.println(message);
-					message = input.nextLine();
-					sendMessage(message);
-					
+					do
+					{
+						message = (String)in.readObject();
+						System.out.println(message);
+						message = input.nextLine();
+						sendMessage(message);
+					}while(!message.equalsIgnoreCase("Open") && !message.equalsIgnoreCase("Assigned") && !message.equalsIgnoreCase("Closed"));
+						
 					//SUCCESSFUL CREATION
 					message = (String)in.readObject();
 					System.out.println(message);
@@ -242,14 +251,15 @@ public class Requester{
 					message = input.nextLine();
 					sendMessage(message);
 					
-					//LENGHT
 					message = (String)in.readObject();
-					result = Integer.parseInt(message);
-							
-					for(int i=0; i<result; i++) {
-						message = (String)in.readObject();
-						System.out.println(message);
-					}  
+					System.out.println(message);
+					
+					
+					if(message.equalsIgnoreCase("1"))
+					{
+						System.out.println("You do not have any reports assigned to you ");
+					}
+					  
 				}
 				
 				if(option == 5) 

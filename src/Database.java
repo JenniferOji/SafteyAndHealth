@@ -186,9 +186,9 @@ import java.io.IOException;
 	}
 	
 	//when the user is registering it checks if the employee has a unique ID 
-	public synchronized String empolyeeIDExists(String searchValue)
+	public synchronized String empolyeeIDExists(String employeeID)
 	{
-		String result="1";//no employee
+		String result="1";//unique employee ID
 		Iterator i = employeeList.iterator();
 		Employees temp;
 		
@@ -197,9 +197,10 @@ import java.io.IOException;
 			temp = (Employees)i.next();
 			
 			//if there is a match result is -1 and the user is asked for their ID until it is valid 
-			if(temp.getEmpID().equalsIgnoreCase(searchValue))
+			if(temp.getEmpID().equalsIgnoreCase(employeeID))
 			{
-				result = "-1";//string of the employee details 
+				//not a unique ID
+				result = "-1";
 				break;
 			}
 		}
@@ -317,19 +318,24 @@ import java.io.IOException;
 		return temp.toString();
 	}
 	
-	
-	//displays all the reports with the inputed ID 
-	public synchronized String getYourReports(int location, String id)
+	public synchronized String yourReports(String ID)
 	{
-		Reports temp = reportList.get(location);
+		String result="1";//no reports  
+		Iterator i = reportList.iterator();
+		Reports temp;
 		
-		//if there is a match in the reports with the inputed ID
-		if(temp.getAssignedID().equalsIgnoreCase(id))
+		//loops through all the reports  
+		while(i.hasNext())
 		{
-			return temp.toString();
+			temp = (Reports)i.next();
+			
+			if(temp.getAssignedID().equalsIgnoreCase(ID))
+			{
+				result += temp.toString() + "\n";				
+			}
 		}
-		return null;
+		return result;
+		
 	}
-	
 	
 }

@@ -153,19 +153,32 @@ public class ServerThread extends Thread {
 			
 				//CREATE A REPORT
 				if(option == 1)
-				{			
-					sendMessage("Enter Report type (Accident Report or Health and Safety Risk Report) ");
-					reportType = (String)in.readObject();
+				{	
+					do {
+						sendMessage("Enter Report type (Accident Report or Health and Safety Risk Report)) ");
+						reportType = (String)in.readObject();
+						//looping until the user choose a valid report type 
+					}while(!reportType.equalsIgnoreCase("Accident Report") && !reportType.equalsIgnoreCase("Health and Safety Risk Report"));
 					
 				    sendMessage("Enter Date");
 					date = (String)in.readObject();
 					
-					sendMessage("Enter Employee ID of the Report Creation");
-					message = (String)in.readObject();
-					reportEmployeeID = Integer.parseInt(message);	
+					do
+					{
+						sendMessage("Enter Employee ID of the Report Creation");
+						message = (String)in.readObject();
+						reportEmployeeID = Integer.parseInt(message);	
+						
+						//checking if the ID exists 
+						validEmployeeID = shared.empolyeeIDExists(message);
+						//returning 1 means it is a unique ID is not valid 
+					}while(validEmployeeID.equalsIgnoreCase("1"));
 	
-					sendMessage("Enter Report Status (Open - Assigned - Closed)");
-					status = (String)in.readObject();
+					do
+					{
+						sendMessage("Enter Report Status (Open - Assigned - Closed)");
+						status = (String)in.readObject();
+					}while(!status.equalsIgnoreCase("Open") && !status.equalsIgnoreCase("Assigned") && !status.equalsIgnoreCase("Closed"));
 					
 					//report ID is random and assigned in library class  
 					reportID = shared.reportIDGenerator(reportID);
@@ -180,7 +193,8 @@ public class ServerThread extends Thread {
 				}
 				
 				//OUTPUTTING ALL REPORGTS TO SCREEN 
-				if(option == 2) {				
+				if(option == 2)
+				{				
 					int length = shared.getLength();
 	
 					//sharing all the reports 
@@ -191,7 +205,8 @@ public class ServerThread extends Thread {
 				}
 				
 				//ASSIGNING A REPORT 
-				if(option == 3) {
+				if(option == 3)
+				{
 					String validAssignment;
 					sendMessage("ASSIGN A REPORT ");
 					
@@ -207,21 +222,14 @@ public class ServerThread extends Thread {
 				}
 				
 				//OUTPUTTING REPORTS BASED ON ID
-				if(option == 4) {					
+				if(option == 4)
+				{	
 					sendMessage("Enter your Employee ID");
-					message = (String)in.readObject();
-					employeeID = Integer.parseInt(message);
-					String ID = Integer.toString(employeeID);//parsing to be able to send to method 			
+					String empID = (String)in.readObject();
 					
-					int length = shared.getLength();
-					
-					//sharing all the reports 
-					sendMessage(""+length);
-					for(int i =0; i<length; i++) {
-						//calling the method that will send their reports 
-						sendMessage(shared.getYourReports(i, ID));
-					}
-					
+					//method checks if you have the inputed ID has reports assigned to them 
+					String reportsExists = shared.yourReports(empID);
+					sendMessage(reportsExists);
 				}
 				
 				//UPDATING PASSWORD 
