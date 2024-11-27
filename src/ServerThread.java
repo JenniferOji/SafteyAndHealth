@@ -64,9 +64,7 @@ public class ServerThread extends Thread {
 				
 				//EMPLOYEE REGISTRATION
 				if(message.equalsIgnoreCase("1"))
-				{
-					sendMessage("EMPLOYEE REGISTRATION");
-					
+				{					
 					sendMessage("Enter Name");
 					name = (String)in.readObject();
 					
@@ -106,9 +104,7 @@ public class ServerThread extends Thread {
 				
 				//LOGIN TO SYSTEM WITH EMAIL AND PASSWORD 
 				else if(message.equalsIgnoreCase("2"))
-				{
-					sendMessage("EMPLOYEE LOGIN");
-					
+				{					
 					String result;
 					int attempts = 0;
 					do

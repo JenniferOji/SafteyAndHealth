@@ -42,9 +42,6 @@ public class Requester{
 			
 			    if(message.equalsIgnoreCase("1"))
 			    {
-			    	//TITLE 
-			    	message = (String)in.readObject();
-					System.out.println(message);
 			    	//NAME
 			    	message = (String)in.readObject();
 					System.out.println(message);
@@ -148,8 +145,7 @@ public class Requester{
 			message = (String)in.readObject();
 			System.out.println(message);
 				  
-			do 
-			{
+			do {
 				//looping until user chooses a valid option 
 				do
 				{
@@ -304,7 +300,7 @@ public class Requester{
 					
 				}
 				
-				//asking the user if they want to repeat the menu 
+				//asking the user if they want to repeat
 				message = (String)in.readObject();
 				System.out.println(message);
 				message = input.nextLine();
