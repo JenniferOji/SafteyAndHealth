@@ -47,15 +47,26 @@ public class ServerThread extends Thread {
 				//repeating until the user enters 1 or 2
 				do
 				{
-					sendMessage("Enter 1 - Register. 2 - Log-in");
-					message = (String)in.readObject();
-					result = Integer.parseInt(message);	
+					try
+					{
+						sendMessage("Enter 1 - Register. 2 - Log-in");
+						message = (String)in.readObject();
+						result = Integer.parseInt(message);	
+					}catch (NumberFormatException e) {
+				        e.printStackTrace();
+
+				    } catch (ClassNotFoundException | IOException e) {
+				        e.printStackTrace();
+				    }
+				
 					
 				}while(result!=1 && result!=2);
 				
 				//EMPLOYEE REGISTRATION
 				if(message.equalsIgnoreCase("1"))
 				{
+					sendMessage("EMPLOYEE REGISTRATION");
+					
 					sendMessage("Enter Name");
 					name = (String)in.readObject();
 					
@@ -96,6 +107,8 @@ public class ServerThread extends Thread {
 				//LOGIN TO SYSTEM WITH EMAIL AND PASSWORD 
 				else if(message.equalsIgnoreCase("2"))
 				{
+					sendMessage("EMPLOYEE LOGIN");
+					
 					String result;
 					int attempts = 0;
 					do
@@ -160,7 +173,7 @@ public class ServerThread extends Thread {
 						//looping until the user choose a valid report type 
 					}while(!reportType.equalsIgnoreCase("Accident Report") && !reportType.equalsIgnoreCase("Health and Safety Risk Report"));
 					
-				    sendMessage("Enter Date");
+				    sendMessage("Enter Date (??/??/????)");
 					date = (String)in.readObject();
 					
 					do

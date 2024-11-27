@@ -10,7 +10,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
-	public class Database{
+public class Database{
 	
 	private LinkedList<Employees> employeeList;
 	private LinkedList<Reports> reportList;
@@ -241,7 +241,8 @@ import java.io.IOException;
 	}
 	
 	//when the user tries to assign a file to an employee
-	public synchronized String reportIDExists(String searchReport, String searchID) {
+	public synchronized String reportIDExists(String searchReport, String searchID) 
+	{
         // Default to invalid assignment
         String validAssignment = "-1";
         boolean reportExists = false;
@@ -275,12 +276,15 @@ import java.io.IOException;
         }
         
         //if they both exist
-        if(reportExists && employeeExists) {
+        if(reportExists && employeeExists) 
+        {
             validAssignment = "1";
 
             //it loops through all the reports until it finds one with a matching ID
-            for (Reports temp3 : reportList) {
-                if (temp3.getReportID().equals(searchReport)) {
+            for (Reports temp3 : reportList)
+            {
+                if (temp3.getReportID().equals(searchReport))
+                {
                 	//when it finds it it changes the status to assigned and also changes the assigned ID
                     temp3.setAssignedID(Integer.parseInt(searchID));
                     temp3.setStatus("Assigned");
@@ -302,11 +306,11 @@ import java.io.IOException;
 		Random rand = new Random(); 
 		int randomNum; 
 	    String valid; 
-	     
+	    
+	    //looping until it gets a number with a unique report ID
 	    do 
 	    { 
 	    	randomNum= rand.nextInt(1000) + 1; 
-	   
 	        String num = Integer.toString(randomNum);     
 	        valid = reportExists(num); 
 
@@ -316,7 +320,9 @@ import java.io.IOException;
 
 	} 
 
-	public synchronized String reportExists(String reportID) { 
+	//method checks if the reportID already exists 
+	public synchronized String reportExists(String reportID)
+	{ 
 	        
 		// Default to invalid assignment 
 	    String valid = "1"; 
@@ -341,19 +347,20 @@ import java.io.IOException;
 	    
 	}
 	//getting the number of reports in the reports list
-	public synchronized int getLength()
-	{
-		return reportList.size();
-	}
+//	public synchronized int getLength()
+//	{
+//		return reportList.size();
+//	}
+//	
+//	//retrieves all of the accident reports 
+//	public synchronized String getAccidentReports(int location)
+//	{
+//		Reports temp = reportList.get(location);
+//		
+//		return temp.toString();
+//	}
 	
-	//retrieves all of the accident reports 
-	public synchronized String getAccidentReports(int location)
-	{
-		Reports temp = reportList.get(location);
-		
-		return temp.toString();
-	}
-	
+	//outputting reports of the users chosen ID
 	public synchronized String yourReports(String ID)
 	{
 		String result="1";//no reports  
@@ -374,6 +381,7 @@ import java.io.IOException;
 		
 	}
 	
+	//outputting all the accident report 
 	public synchronized String AccidentReports(String type)
 	{
 		String result="1";//no reports  
