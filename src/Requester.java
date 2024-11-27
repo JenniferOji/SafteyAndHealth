@@ -204,12 +204,14 @@ public class Requester{
 				if(option == 2) 
 				{				
 					message = (String)in.readObject();
-					result = Integer.parseInt(message);
-							
-					for(int i=0; i<result; i++) {
-						message = (String)in.readObject();
-						System.out.println(message);
-					}    
+					System.out.println(message);
+//					message = (String)in.readObject();
+//					result = Integer.parseInt(message);
+//							
+//					for(int i=0; i<result; i++) {
+//						message = (String)in.readObject();
+//						System.out.println(message);
+//					}    
 				}
 				
 				if(option == 3)

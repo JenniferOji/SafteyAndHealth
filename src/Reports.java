@@ -16,6 +16,9 @@ public class Reports {
 		assignedEmployeeID = ro;
 	}
 	
+	public String getType() {
+		return type;
+	}
 	//outputting efficiently to file 
 	public String toStringFile()
 	{

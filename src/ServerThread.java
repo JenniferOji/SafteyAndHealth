@@ -195,13 +195,17 @@ public class ServerThread extends Thread {
 				//OUTPUTTING ALL REPORGTS TO SCREEN 
 				if(option == 2)
 				{				
-					int length = shared.getLength();
-	
-					//sharing all the reports 
-					sendMessage(""+length);
-					for(int i =0; i<length; i++) {
-						sendMessage(shared.getAccidentReports(i));
-					}
+//					int length = shared.getLength();
+//	
+//					//sharing all the reports 
+//					sendMessage(""+length);
+//					for(int i =0; i<length; i++) {
+//						sendMessage(shared.getAccidentReports(i));
+//					}
+					
+					//method checks if you have the inputed ID has reports assigned to them 
+					String reportsExists = shared.AccidentReports("Accident Report");
+					sendMessage(reportsExists);
 				}
 				
 				//ASSIGNING A REPORT 

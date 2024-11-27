@@ -296,14 +296,50 @@ import java.io.IOException;
     }
 	
 	//assigns a random number between (1 - 1000) to the report ID 
-	public synchronized int reportIDGenerator(int reportID) {
-        Random rand = new Random();
+	public synchronized int reportIDGenerator(int reportID) 
+	{
+		 
+		Random rand = new Random(); 
+		int randomNum; 
+	    String valid; 
+	     
+	    do 
+	    { 
+	    	randomNum= rand.nextInt(1000) + 1; 
+	   
+	        String num = Integer.toString(randomNum);     
+	        valid = reportExists(num); 
 
-        int randomNum = rand.nextInt(1000) + 1;
-        return randomNum;
+	     }while(valid.equalsIgnoreCase("-1")); 
 
+	    return randomNum; 
+
+	} 
+
+	public synchronized String reportExists(String reportID) { 
+	        
+		// Default to invalid assignment 
+	    String valid = "1"; 
+        boolean reportExists = false; 
+        Iterator i = reportList.iterator(); 
+
+	    Reports temp; 
+
+        //it checks if the report id exists  
+	    while(i.hasNext()) 
+	    { 
+	    	temp = (Reports)i.next(); 
+	    
+	        if(temp.getReportID().equals(reportID))  
+	        { 
+	        	valid = "-1"; 
+	            break; 
+	        } 
+	     } 
+	    
+        return valid; 
+	    
 	}
-	
 	//getting the number of reports in the reports list
 	public synchronized int getLength()
 	{
@@ -330,6 +366,26 @@ import java.io.IOException;
 			temp = (Reports)i.next();
 			
 			if(temp.getAssignedID().equalsIgnoreCase(ID))
+			{
+				result += temp.toString() + "\n";				
+			}
+		}
+		return result;
+		
+	}
+	
+	public synchronized String AccidentReports(String type)
+	{
+		String result="1";//no reports  
+		Iterator i = reportList.iterator();
+		Reports temp;
+		
+		//loops through all the reports  
+		while(i.hasNext())
+		{
+			temp = (Reports)i.next();
+			
+			if(temp.getType().equalsIgnoreCase(type))
 			{
 				result += temp.toString() + "\n";				
 			}
