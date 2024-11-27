@@ -1,12 +1,11 @@
 
 public class Reports {
 
-	//attributes that make up the book
+	//attributes that make up the reports 
 	private String type, date, status;
 	private int reportID, employeeID,assignedEmployeeID;
 	
-	
-	//when you make a book to add to the list call a constructor
+	//when a new report is created it adds to the list and calls the employee constructor 
 	public Reports(String n, int a, String i, int p, String r, int ro)
 	{
 		type = n;
@@ -18,7 +17,7 @@ public class Reports {
 	}
 	
 	//outputting efficiently to file 
-	public String toString2()
+	public String toStringFile()
 	{
 		//printing employee details
 		String temp = type+ "#"+reportID+ "#"+date+ "#" +employeeID+ "#"+status + "#"+ assignedEmployeeID;
@@ -38,6 +37,7 @@ public class Reports {
 		return temp;
 	}
 	
+	//getting the report id to ensure its valid when assigning a report 
 	public String getReportID() {
 		//casting report id to a sting to allow for an easier comparison 
 		String report = Integer.toString(reportID);				
@@ -49,10 +49,12 @@ public class Reports {
 		return employeeID;
 	}
 	
+	//making the inputed assigned id the new value 
 	public void setAssignedID(int id) {
 		this.assignedEmployeeID = id;
 	}
 	
+	//making the inputed status the new status 
 	public void setStatus(String updatedStatus) {
 		this.status = updatedStatus;
 	}

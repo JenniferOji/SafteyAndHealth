@@ -155,11 +155,11 @@ public class Requester{
 					sendMessage(message);
 					
 	                option = Integer.parseInt(message);
-					if(option < 1 || option > 6) {
+					if(option < 1 || option > 5) {
 						message = (String)in.readObject();
 						System.out.println(message);
 					}
-				}while(!message.equalsIgnoreCase("1")&&!message.equalsIgnoreCase("2")&&!message.equalsIgnoreCase("3")&&!message.equalsIgnoreCase("4")&&!message.equalsIgnoreCase("5")&&!message.equalsIgnoreCase("6"));
+				}while(!message.equalsIgnoreCase("1")&&!message.equalsIgnoreCase("2")&&!message.equalsIgnoreCase("3")&&!message.equalsIgnoreCase("4")&&!message.equalsIgnoreCase("5"));
 	
 				if(option == 1)
 				{	
@@ -287,20 +287,6 @@ public class Requester{
 					}
 					
 				}
-				
-				//OUTPUTTING ALL EMPLOYEES 
-				if(option == 6)
-				{
-					message = (String)in.readObject();	
-			    	result = Integer.parseInt(message);
-			    	
-			    	for(int i=0;i<result;i++)
-			    	{
-			    		message = (String)in.readObject();
-			    		System.out.println(message);
-			    	}
-				}
-				
 				
 				//asking the user if they want to repeat
 				message = (String)in.readObject();

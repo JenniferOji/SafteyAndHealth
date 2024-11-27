@@ -10,7 +10,7 @@ public class MainServer {
 		ServerSocket provider;
 		Socket connection;
 		ServerThread handler;
-		Library myLib = new Library();
+		Database data = new Database();
 		
 		//populate the library...
 		
@@ -22,7 +22,7 @@ public class MainServer {
 			{
 				//every time connection is received i create a server thread 
 				connection = provider.accept();
-				handler = new ServerThread(connection, myLib);
+				handler = new ServerThread(connection, data);
 				handler.start();
 			}
 		} catch (IOException e) {

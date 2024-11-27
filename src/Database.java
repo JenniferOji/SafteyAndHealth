@@ -10,24 +10,23 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
-	public class Library {
+	public class Database{
 	
-	//	private LinkedList<Book> list;
-		private LinkedList<Employees> list;
-		private LinkedList<Reports> list2;
+	private LinkedList<Employees> employeeList;
+	private LinkedList<Reports> reportList;
 		
-		public Library()
-		{
-			//list holds a linked list of books 
-			list = new LinkedList<Employees>();
-			list2 = new LinkedList<Reports>();
+	public Database()
+	{
+			//holds a linked list of employees  
+			employeeList = new LinkedList<Employees>();
+			//holds a linked list of reports 
+			reportList = new LinkedList<Reports>();
 			
 			//reading in the employees
 			String fileContents;
-			String[] results = new String[6];
 			Employees temp;
 			Reports temp2;
-			//Populating the employees list
+			//POPULATING EMPLOYEE LIST
 			try 
 			{
 				FileReader fr = new FileReader(new File("Employees.txt"));
@@ -36,9 +35,9 @@ import java.io.IOException;
 				while((fileContents = br.readLine())!=null)
 				{  					
 					String[] resultPart = fileContents.split("#");//splitting at the #
-				
+					//put each split word into an array of parts 
 					temp = new Employees(resultPart[0], Integer.parseInt(resultPart[1]), resultPart[2], resultPart[3],resultPart[4], resultPart[5]);
-					list.add(temp);
+					employeeList.add(temp);
 				}
 				
 			} 
@@ -50,8 +49,8 @@ import java.io.IOException;
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			/////////////////////////////////////////////////////////////////////
-			//populating the reports list 
+			//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+			//POPULATING REPROTS LIST 
 			try 
 			{
 				FileReader fr = new FileReader(new File("Reports.txt"));
@@ -62,7 +61,7 @@ import java.io.IOException;
 					String[] resultPart = fileContents.split("#");//splitting at the #
 			
 					temp2 = new Reports(resultPart[0], Integer.parseInt(resultPart[1]), resultPart[2], Integer.parseInt(resultPart[3]),resultPart[4], Integer.parseInt(resultPart[5]));
-					list2.add(temp2);
+					reportList.add(temp2);
 				}
 				
 			} 
@@ -75,23 +74,16 @@ import java.io.IOException;
 				e.printStackTrace();
 			}
 			
-	}
+		}
 	
-	//FOR THE EMPLOYEE REGISTER 	
-	public synchronized void addBook(String name, int employeeID, String email, String password, String departmentName, String role)
+	//method that writes to the employees file when called 
+	public synchronized void writeToEmployeesFile()
 	{
-		Employees temp = new Employees(name,employeeID,email,password,departmentName,role);
-		
-		list.add(temp);
-		
-		//update the file storage for the Employees
-		//rewriting the file when an employee registers 
+		Employees temp;
 		try 
 		{
 			FileWriter fw = new FileWriter(new File("Employees.txt"));
-			Iterator i = list.iterator();
-			
-			
+			Iterator i = employeeList.iterator();
 			while(i.hasNext())
 			{
 				temp = (Employees)i.next();
@@ -99,24 +91,53 @@ import java.io.IOException;
 				
 				System.out.println("Writing "+temp.toString());
 			}
-			
 			fw.close();
-		} 
-		
-		catch (IOException e) 
+		} catch (IOException e) 
 		{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	//method that writes to the reports file when called 
+	public synchronized void writeToReportsFile()
+	{
+		Reports temp;
+		try 
+		{
+			FileWriter fw = new FileWriter(new File("Reports.txt"));
+			Iterator i = reportList.iterator();
+			while(i.hasNext()){
+				temp = (Reports)i.next();
+				fw.write(temp.toStringFile()+"\n");
+				
+				System.out.println("Writing "+temp.toStringFile());
+			}	
+			fw.close();
+			} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+		
+	//FOR THE EMPLOYEE REGISTER 	
+	public synchronized void addEmployee(String name, int employeeID, String email, String password, String departmentName, String role)
+	{
+		Employees temp = new Employees(name,employeeID,email,password,departmentName,role);
+		
+		employeeList.add(temp);
+		
+		//adding the employee to the file 
+		writeToEmployeesFile();
 		
 	}
 	
-	public synchronized String searchBook(String email, String password)
+	
+	//when the user logs into the system it checks if there is an email and password matching to one of the employees details in the file 
+	public synchronized String searchEmployee(String email, String password)
 	{
-		//get sent the five parameters to make a book and add the to the list 
-		//if you get to the end and the book doesn't exist you send a -1
 		String result="-1";//no book 
-		Iterator i = list.iterator();
+		Iterator i = employeeList.iterator();
 		Employees temp;
 		
 		//item stays in the list but i get a copy of it 
@@ -126,20 +147,21 @@ import java.io.IOException;
 			
 			if(temp.getEmail().equalsIgnoreCase(email)&& temp.getPassword().equalsIgnoreCase(password))
 			{
-				//result = temp.toString();//string of the employee details 
+				//if result is one it allows the user to enter the system by initializing the authenticate variable true 
 				result = "1";
 				break;
 			}
 		}
+		
+		//otherwise it sends -1 making the user go back to the register/login screen 
 		return result;
 	}
 	
+	//when the user wants to update their password it checks if their email and current password matches one in the system
 	public synchronized String updatePassword(String email, String currentPassword, String newPassword)
 	{
-		//get sent the five parameters to make a book and add the to the list 
-		//if you get to the end and the book doesn't exist you send a -1
 		String result="-1";//no book 
-		Iterator i = list.iterator();
+		Iterator i = employeeList.iterator();
 		Employees temp;
 		
 		//item stays in the list but i get a copy of it 
@@ -147,67 +169,48 @@ import java.io.IOException;
 		{
 			temp = (Employees)i.next();
 			
+			//if the password matches 
 			if(temp.getEmail().equalsIgnoreCase(email)&& temp.getPassword().equalsIgnoreCase(currentPassword))
 			{
+				//it calls the method that updates their password 
                 temp.updatePassword(newPassword);
                 
-                //updating the file 
+                //updating the file since there has been a change 
+                writeToEmployeesFile();
 				result = "1";
 				break;
 			}
 		}
 		
-		//updating the file
-		try 
-		{
-			FileWriter fw = new FileWriter(new File("Employees.txt"));
-			Iterator j = list.iterator();
-			
-			while(j.hasNext())
-			{
-				temp = (Employees)j.next();
-				fw.write(temp.toString()+"\n");
-				
-				System.out.println("Writing "+temp.toString());
-			}
-			fw.close();
-		} 
-		catch (IOException e) 
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		return result;
 	}
 	
+	//when the user is registering it checks if the employee has a unique ID 
 	public synchronized String empolyeeIDExists(String searchValue)
 	{
-		//get sent the five parameters to make a book and add the to the list 
-		//if you get to the end and the book doesn't exist you send a -1
-		String result="1";//no book 
-		Iterator i = list.iterator();
+		String result="1";//no employee
+		Iterator i = employeeList.iterator();
 		Employees temp;
 		
-		//item stays in the list but i get a copy of it 
 		while(i.hasNext())
 		{
 			temp = (Employees)i.next();
 			
+			//if there is a match result is -1 and the user is asked for their ID until it is valid 
 			if(temp.getEmpID().equalsIgnoreCase(searchValue))
 			{
 				result = "-1";//string of the employee details 
 				break;
 			}
 		}
-		
-		return result;
-		
+		return result;	
 	}
 	
+	//when the user is registering it checks if they are giving a unique email 
 	public synchronized String emailExists(String searchValue)
 	{
-		String result="1";//email already exists  
-		Iterator i = list.iterator();
+		String result="1";//email not in use 
+		Iterator i = employeeList.iterator();
 		Employees temp;
 		
 		//item stays in the list but i get a copy of it 
@@ -217,92 +220,38 @@ import java.io.IOException;
 			
 			if(temp.getEmail().equalsIgnoreCase(searchValue))
 			{
-//				result = temp.toString();//string of the employee details 
-				result = "-1";
+				result = "-1";//email in use 
 				break;
 			}
 		}
-		
 		return result;
 		
 	}
-	
-	//TO BE DELETED
-	///////////////////////////////////////////////
-	public synchronized int getLength2()
-	{
-		return list.size();
-	}
-	
-	public synchronized String getItem2(int location)
-	{
-		Employees temp = list.get(location);
-		
-		return temp.toString();
-	}
-	
-	////////////////////////////////////////////
-	public synchronized int getLength()
-	{
-		return list2.size();
-	}
-	
-	public synchronized String getItem(int location)
-	{
-		Employees temp = list.get(location);
-		
-		return temp.toString();
-	}
-	
 
-	
 	//FOR THE REPORTS 
 	public synchronized void addReport(String type, int reportID, String date, int reportEmployeeID, String status, int assignedEmployeeID)
 	{	
-		
+		//when a report is created its put into the list of reports 
 		Reports temp = new Reports(type,reportID,date,reportEmployeeID,status,assignedEmployeeID);
 		
-		list2.add(temp);
+		reportList.add(temp);
 		
-		//result = temp.toString();//string of the employee details 
-		//update the file storage for the Employees
-		//rewriting the file when an employee registers 
-		try 
-		{
-			FileWriter fw = new FileWriter(new File("Reports.txt"));
-			Iterator i = list2.iterator();
-			
-			
-			while(i.hasNext())
-			{
-				temp = (Reports)i.next();
-				fw.write(temp.toString2()+"\n");
-				
-				System.out.println("Writing "+temp.toString2());
-			}
-			
-			fw.close();
-		} 
-		
-		catch (IOException e) 
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		writeToReportsFile();
 	}
 	
+	//when the user tries to assign a file to an employee
 	public synchronized String reportIDExists(String searchReport, String searchID) {
         // Default to invalid assignment
         String validAssignment = "-1";
         boolean reportExists = false;
         boolean employeeExists = false;
-        Iterator i = list2.iterator();
-        Iterator j = list.iterator();
+        Iterator i = reportList.iterator();
+        Iterator j = employeeList.iterator();
 
 		Reports temp;
 		Employees temp2;
         
-        // Check if report exists
+        //it checks if the report id exists 
         while(i.hasNext())
         {
 			temp = (Reports)i.next();
@@ -313,7 +262,7 @@ import java.io.IOException;
             }
         }
         
-        // Check if employee exists
+        //it then checks if the employee exists 
         while(j.hasNext()) 
         {
 			temp2 = (Employees)j.next();
@@ -324,47 +273,28 @@ import java.io.IOException;
             }
         }
         
-        // Both report and employee must exist for valid assignment
+        //if they both exist
         if(reportExists && employeeExists) {
             validAssignment = "1";
 
-            //looping through all the reports until it finds the correct one
-            for (Reports temp3 : list2) {
+            //it loops through all the reports until it finds one with a matching ID
+            for (Reports temp3 : reportList) {
                 if (temp3.getReportID().equals(searchReport)) {
-                	//if there is a match - changing the status to assigned and changing the assigned ID
+                	//when it finds it it changes the status to assigned and also changes the assigned ID
                     temp3.setAssignedID(Integer.parseInt(searchID));
                     temp3.setStatus("Assigned");
                     break;
                 }
             }
             
-            //writing to file 
-            try 
-    		{
-    			FileWriter fw = new FileWriter(new File("Reports.txt"));
-    			Iterator l = list2.iterator();
-    			
-    			while(l.hasNext())
-    			{
-    				temp = (Reports)l.next();
-    				fw.write(temp.toString2()+"\n");
-    				
-    				System.out.println("Writing "+temp.toString2());
-    			}
-    			
-    			fw.close();
-    		} 
-    		
-    		catch (IOException e) 
-    		{
-    			// TODO Auto-generated catch block
-    			e.printStackTrace();
-    		}
+            //writing to the file since there was an update 
+            writeToReportsFile();
         } 
         
         return validAssignment;
     }
 	
+	//assigns a random number between (1 - 1000) to the report ID 
 	public synchronized int reportIDGenerator(int reportID) {
         Random rand = new Random();
 
@@ -373,45 +303,31 @@ import java.io.IOException;
 
 	}
 	
-	public synchronized String searchAccidentReports(String searchValue, String searchValue2)
+	//getting the number of reports in the reports list
+	public synchronized int getLength()
 	{
-		//get sent the five parameters to make a book and add the to the list 
-		//if you get to the end and the book doesn't exist you send a -1
-		String result="-1";//no book 
-		Iterator i = list.iterator();
-		Employees temp;
-		
-		//item stays in the list but i get a copy of it 
-		while(i.hasNext())
-		{
-			temp = (Employees)i.next();
-			
-			result = temp.toString();//string of the employee details 
-			break;
-			
-		}
-		
-		return result;
-		
+		return reportList.size();
 	}
 	
+	//retrieves all of the accident reports 
 	public synchronized String getAccidentReports(int location)
 	{
-		Reports temp = list2.get(location);
+		Reports temp = reportList.get(location);
 		
 		return temp.toString();
 	}
 	
 	
+	//displays all the reports with the inputed ID 
 	public synchronized String getYourReports(int location, String id)
 	{
-		Reports temp = list2.get(location);
+		Reports temp = reportList.get(location);
 		
+		//if there is a match in the reports with the inputed ID
 		if(temp.getAssignedID().equalsIgnoreCase(id))
 		{
 			return temp.toString();
 		}
-		
 		return null;
 	}
 	

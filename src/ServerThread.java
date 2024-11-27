@@ -9,26 +9,28 @@ public class ServerThread extends Thread {
 	private ObjectOutputStream out;
 	private ObjectInputStream in;
 	private String message, message2;
+	
 	//variables to register
 	private String name, email, password, departmentName, role;
 	private int employeeID;
+	private String validEmail;
+	private String validEmployeeID;
 	
 	//variables for the report 
 	private String reportType, date, status;
 	private int reportID, reportEmployeeID, assingedEmployeeID;
-	private int result, numberOfBooks, option;
-	private int num1, num2, num3;
-	private Library shared;
+	private int result, option;
 	
-	private String validEmail;
-	private String validEmployeeID;
+	//database is the shared data source 
+	private Database shared;	
 	
+	//authenticate allows the user into the system 
 	private boolean authenticate = false;
 	
-	public ServerThread(Socket s, Library lib)
+	public ServerThread(Socket s, Database data)
 	{
 		myConnection = s;
-		shared = lib;
+		shared = data;
 	}
 	
 	public void run()
@@ -39,7 +41,7 @@ public class ServerThread extends Thread {
 			out.flush();
 			in = new ObjectInputStream(myConnection.getInputStream());
 		
-			//The server is ready to communicate.....
+			//When the server is ready to communicate 
 			do
 			{
 				//repeating until the user enters 1 or 2
@@ -51,12 +53,13 @@ public class ServerThread extends Thread {
 					
 				}while(result!=1 && result!=2);
 				
+				//EMPLOYEE REGISTRATION
 				if(message.equalsIgnoreCase("1"))
 				{
 					sendMessage("Enter Name");
 					name = (String)in.readObject();
 					
-					//checking if employeeID is unique 
+					//checking if the employeeID is unique 
 					do
 					{
 						sendMessage("Employee ID");
@@ -82,12 +85,15 @@ public class ServerThread extends Thread {
 					sendMessage("Enter Role");
 					role = (String)in.readObject();
 					
-					shared.addBook(name, employeeID, email, password, departmentName, role);
+					//adding employee to the employeeList 
+					shared.addEmployee(name, employeeID, email, password, departmentName, role);
 					
 					sendMessage("You have successfully registered");
+					//allows the user into the system 
 					authenticate = true;
 				}
 				
+				//LOGIN TO SYSTEM WITH EMAIL AND PASSWORD 
 				else if(message.equalsIgnoreCase("2"))
 				{
 					String result;
@@ -101,18 +107,19 @@ public class ServerThread extends Thread {
 						String userPassword = (String)in.readObject();
 						
 						attempts ++;
-						//String attemptsNum = Integer.toString(attempts);
 						
-						//Search for the employee ....
-						result = shared.searchBook(userEmail, userPassword);			
+						//searching if the employee exists 
+						result = shared.searchEmployee(userEmail, userPassword);			
 						sendMessage(result);
 						
+						//if they do they are allowed to the system 
 						if(result.equalsIgnoreCase("1")){
 							authenticate = true;
 						}
 						//if the user gives the wrong credentials more five times or more it exits the loop 
 						if(attempts >=5) {
 							sendMessage("Too many attempts - exiting login");
+							//they are not allowed in system 
 							authenticate = false;
 							break;
 						}
@@ -120,26 +127,31 @@ public class ServerThread extends Thread {
 					}while(result.equalsIgnoreCase("-1"));
 					
 				}
-				
+			//the registration/login process continues until the user is authenticated 
 			}while(authenticate == false);
 				
-			//creating report
+			//HEALTH AND SAFTEY REPORT DATABASE
 			sendMessage("REPORT DATABASE - HEALTH AND SAFTEY REPORTS");
 			
 			do
 			{
+				//looping until the user chooses a valid option (1-5)
 				do
 				{
-					sendMessage("Press 1 to Create a report\nPress 2 to retrieve all registered accident reports\nPress 3 to assign report\nPress 4 to view all your assigned reports\nPress 5 to update password\nPress 6 to view all Employees");
+					sendMessage("Press 1 to Create a report\nPress 2 to retrieve all registered accident reports\n"
+							  + "Press 3 to assign a report\nPress 4 to view all your assigned reports\n"
+							  + "Press 5 to update your password");
+					
 					message = (String)in.readObject();
 					option = Integer.parseInt(message);	
 					
-					if(option < 1 || option > 6) {
+					if(option < 1 || option > 5) {
 						sendMessage("Invalid option please enter a number between 1 - 5");
 					}
 					
-				}while(option!=1 && option!=2 && option!=3 && option!=4 && option!=5  && option!=6);
+				}while(option!=1 && option!=2 && option!=3 && option!=4 && option!=5);
 			
+				//CREATE A REPORT
 				if(option == 1)
 				{			
 					sendMessage("Enter Report type (Accident Report or Health and Safety Risk Report) ");
@@ -161,11 +173,13 @@ public class ServerThread extends Thread {
 					assingedEmployeeID = 0;
 					//assigned employee id blank until assigned 
 					
+					//adding report to report list 
 					shared.addReport(reportType, reportID, date, reportEmployeeID, status, assingedEmployeeID);
 					
 					sendMessage("Report successfully created");
 				}
 				
+				//OUTPUTTING ALL REPORGTS TO SCREEN 
 				if(option == 2) {				
 					int length = shared.getLength();
 	
@@ -176,25 +190,23 @@ public class ServerThread extends Thread {
 					}
 				}
 				
+				//ASSIGNING A REPORT 
 				if(option == 3) {
 					String validAssignment;
 					sendMessage("ASSIGN A REPORT ");
 					
 					sendMessage("Enter the Report ID ");
-					message = (String)in.readObject();
-					reportID = Integer.parseInt(message);
-					String report = Integer.toString(reportID);//parsing to be able to send to method 			
-
+					String report = (String)in.readObject();
+					
 					sendMessage("Enter the Employee ID you want to assign the report to");
-					message = (String)in.readObject();
-					assingedEmployeeID = Integer.parseInt(message);
-					String ID = Integer.toString(assingedEmployeeID);//parsing to be able to send to method 			
-
+					String ID = (String)in.readObject();
+					
 					//if report and id is valid it updates the details of the report in the method 
 					validAssignment = shared.reportIDExists(report, ID);
 					sendMessage(validAssignment);
 				}
 				
+				//OUTPUTTING REPORTS BASED ON ID
 				if(option == 4) {					
 					sendMessage("Enter your Employee ID");
 					message = (String)in.readObject();
@@ -206,11 +218,13 @@ public class ServerThread extends Thread {
 					//sharing all the reports 
 					sendMessage(""+length);
 					for(int i =0; i<length; i++) {
+						//calling the method that will send their reports 
 						sendMessage(shared.getYourReports(i, ID));
 					}
 					
 				}
 				
+				//UPDATING PASSWORD 
 				if(option == 5) {
 					String setPassword;
 					String newPassword;
@@ -223,23 +237,10 @@ public class ServerThread extends Thread {
 					sendMessage("Enter new password");
 					newPassword = (String)in.readObject();
 					
+					//calls the method to check if they are applicable to change their ID 
 					setPassword = shared.updatePassword(email, password, newPassword);
 					sendMessage(setPassword);
 
-				}
-				
-				//OUTPUTTING ALL EMPLOYEES 
-				if(option == 6) 
-				{
-					int length = shared.getLength2();
-					
-					sendMessage(""+length);
-					
-					for(int i=0;i<length;i++)
-					{
-						sendMessage(shared.getItem2(i));
-					}
-					
 				}
 				
 				//repeating the menu options 
